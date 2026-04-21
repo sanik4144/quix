@@ -1,19 +1,22 @@
+import cors from "cors";
 import 'dotenv/config';
 import express from "express";
-import cors from "cors";
-import sequelize from "./db/con.js";
-import * as models from "./models/index.js";
-import authRoutes from "./routes/authRoutes.js";
+import sequelize from "./db/connection.js";
 import adminRoutes from "./routes/adminRoutes.js";
+import authRoutes from "./routes/authRoutes.js";
 import instructorRoutes from "./routes/instructorRoutes.js";
 import studentRoutes from "./routes/studentRoutes.js";
+
+import {seed} from './scripts/seed.js';
 
 const app = express();
 
 
 
 // Middleware
-app.use(cors());
+app.use(cors({
+    origin: "*",
+}));
 app.use(express.json());
 
 // Sync database
@@ -22,6 +25,15 @@ sequelize.sync({ alter: true }).then(() => {
 }).catch(err => {
     console.error("Database sync failed:", err);
 });
+
+app.use('/api/seed-now', async (req, res)=>{
+    try {
+        await seed();
+        res.json({message: "Seeded Successfully"});
+    } catch (err) {
+        res.status(500).json({message: err.message});
+    }
+})
 
 // Routes
 app.use('/api/auth', authRoutes);

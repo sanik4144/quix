@@ -1,9 +1,9 @@
-import 'dotenv/config';
 import bcrypt from 'bcryptjs';
+import 'dotenv/config';
+import sequelize from '../db/connection.js';
 import { Role, User } from '../models/index.js';
-import sequelize from '../db/con.js';
 
-const seed = async () => {
+export const seed = async () => {
     try {
         await sequelize.sync({ alter: true });
         console.log("Database connected and synced.");
@@ -64,11 +64,8 @@ const seed = async () => {
             }
         });
         console.log("Super Admin created (admin@quix.com / admin123).");
-
-        process.exit(0);
     } catch (error) {
         console.error("Seeding failed:", error);
-        process.exit(1);
     }
 };
 

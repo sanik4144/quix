@@ -1,6 +1,5 @@
-import { Course } from './models/index.js';
-import sequelize from './db/con.js';
 import { Op } from 'sequelize';
+import { Course } from './models/index.js';
 
 async function fix() {
     try {
