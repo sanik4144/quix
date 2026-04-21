@@ -56,6 +56,7 @@ const AdminCourseManagement = () => {
                             <th>Description</th>
                             <th>Category</th>
                             {/* <th>Thumbnail</th> */}
+                            <th>Instructor</th>
                             <th>Difficulty</th>
                             <th>Price</th>
                             <th>Status</th>
@@ -69,6 +70,7 @@ const AdminCourseManagement = () => {
                                     <td style={{ fontWeight: '600' }}>{course.title}</td>
                                     <td style={{ maxWidth: '250px', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{course.description}</td>
                                     <td>{course.category}</td>
+                                    <td>{course.instructor.fullName}</td>
                                     <td>
                                         <span className={`status-badge status-${course.difficulty.toLowerCase()}`}>
                                             {course.difficulty}

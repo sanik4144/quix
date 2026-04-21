@@ -1,11 +1,21 @@
 import React, { useEffect, useState } from 'react';
 import DashboardLayout from '../../layouts/DashboardLayout';
 import api from '../../services/api';
-import { Check, X, UserMinus, Shield } from 'lucide-react';
+import { Check, X, UserMinus, Search } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 
 const UserManagement = () => {
+    const [page, setPage] = useState(1);
+    const [limit] = useState(5);
+    const [totalPages, setTotalPages] = useState(1);
+
     const [users, setUsers] = useState([]);
+    const [filteredUsers, setFilteredUsers] = useState([]);
+    const [search, setSearch] = useState('');
+    const [filters, setFilters] = useState({
+        roleId: '',
+        status: '',
+    });
     const [roles, setRoles] = useState([]);
     const [loading, setLoading] = useState(true);
     const [remarksMap, setRemarksMap] = useState({});
@@ -13,8 +23,11 @@ const UserManagement = () => {
 
     const fetchUsers = async () => {
         try {
-            const res = await api.get('/admin/users');
-            setUsers(res.data);
+            const res = await api.get(`/admin/users?page=${page}&limit=${limit}`);
+
+            setUsers(res.data.users);
+            setFilteredUsers(res.data.users);
+            setTotalPages(res.data.totalPages);
         } catch (err) {
             console.error(err);
         }
@@ -37,7 +50,7 @@ const UserManagement = () => {
             setLoading(false);
         };
         loadData();
-    }, []);
+    }, [page]);
 
     useEffect(() => {
         const initial = {};
@@ -46,6 +59,21 @@ const UserManagement = () => {
         });
         setRemarksMap(initial);
     }, [users]);
+
+
+    useEffect(() => {
+            let result = users.filter(c => 
+                c.fullName.toLowerCase().includes(search.toLowerCase()) ||
+                c.email.toLowerCase().includes(search.toLowerCase())
+            );
+    
+            if (filters.roleId) {
+                result = result.filter(c => c.Role?.id === filters.roleId);
+            }
+            if (filters.status) result = result.filter(c => c.status === filters.status);
+    
+            setFilteredUsers(result);
+        }, [search, filters, users]);
 
 
     const handleStatusUpdate = async (id, status, remarks) => {
@@ -80,6 +108,45 @@ const UserManagement = () => {
                 <p>Manage users, approve registrations, and assign roles.</p>
             </div>
 
+            <div className="filter-bar">
+                <div className="search-input" style={{ position: 'relative', display: 'flex', alignItems: 'center' }}>
+                    <Search size={18} style={{ position: 'absolute', left: '1rem', color: 'var(--text-muted)' }} />
+                    <input 
+                        type="text" 
+                        placeholder="Search user by name or email..." 
+                        style={{ width: '100%', padding: '0.75rem 1rem 0.75rem 2.8rem', border: '1.5px solid var(--border)', borderRadius: '0.75rem' }}
+                        value={search}
+                        onChange={(e) => setSearch(e.target.value)}
+                    />
+                </div>
+                
+                <select
+                    className="filter-select"
+                    value={filters.roleId}
+                    onChange={(e) => setFilters({ ...filters, roleId: e.target.value })}
+                >
+                    <option value="">All Roles</option>
+
+                    {roles.map(role => (
+                        <option key={role.id} value={role.id}>
+                            {role.name}
+                        </option>
+                    ))}
+                </select>
+
+                <select 
+                    className="filter-select"
+                    value={filters.status}
+                    onChange={(e) => setFilters({...filters, status: e.target.value})}
+                >
+                    <option value="">All Status</option>
+                    <option value="APPROVED">Approved</option>
+                    <option value="REJECTED">Rejected</option>
+                    <option value="SUSPENDED">Suspended</option>
+                    <option value="PENDING">Pending</option>
+                </select>
+            </div>
+
             <div className="table-container">
                 <table>
                     <thead>
@@ -93,7 +160,7 @@ const UserManagement = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        {users.map((user) => (
+                        {filteredUsers.map((user) => (
                             <tr key={user.id}>
                                 <td style={{ fontWeight: '600' }}>{user.fullName}</td>
                                 <td>{user.email}</td>
@@ -182,8 +249,32 @@ const UserManagement = () => {
                         ))}
                     </tbody>
                 </table>
+                <div style={{
+                    display: 'flex',
+                    justifyContent: 'center',
+                    gap: '10px',
+                    marginTop: '20px'
+                }}>
+                    <button
+                        disabled={page === 1}
+                        onClick={() => setPage(page - 1)}
+                        className="pagination-btn"
+                    >
+                        Prev
+                    </button>
+
+                    <span>Page {page} of {totalPages}</span>
+
+                    <button
+                        disabled={page === totalPages}
+                        onClick={() => setPage(page + 1)}
+                        className="pagination-btn"
+                    >
+                        Next
+                    </button>
+                </div>
                 {users.length === 0 && !loading && (
-                    <div className="p-8 text-center text-muted">No users found.</div>
+                    <div>No users found.</div>
                 )}
             </div>
         </DashboardLayout>

@@ -95,6 +95,15 @@ body {
   color: white;
 }
 
+.pagination-btn{
+  padding: 5px;
+  border-radius: 5px;
+  margin-bottom: 10px;
+  background-color:#16a34a;
+  color: white;
+  border: none;
+}
+
 
 
 .auth-container {

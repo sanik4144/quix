@@ -21,12 +21,25 @@ export const getAdminDashboardStats = async (req, res) => {
 
 // User Management
 export const getAllUsers = async (req, res) => {
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 5;
+    const offset = (page-1) * limit;
+
     try {
-        const users = await User.findAll({
+        const { count, rows } = await User.findAndCountAll({
             include: [{ model: Role }],
+            limit,
+            offset,
+            order: [['createdAt', 'DESC']],
             attributes: { exclude: ['password'] }
         });
-        res.json(users);
+
+        res.json({
+            users: rows,
+            totalUsers: count,
+            totalPages: Math.ceil(count/limit),
+            currentPage: page,
+        });
     } catch (error) {
         res.status(500).json({ message: error.message });
     }

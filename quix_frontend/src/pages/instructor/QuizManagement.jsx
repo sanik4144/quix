@@ -13,7 +13,6 @@ const QuizManagement = () => {
     const [loading, setLoading] = useState(true);
     const [saving, setSaving] = useState(false);
 
-    // New question form state
     const [showQuestionForm, setShowQuestionForm] = useState(false);
     const [newQuestion, setNewQuestion] = useState({
         questionText: '',
@@ -25,7 +24,6 @@ const QuizManagement = () => {
         try {
             const res = await api.get(`/instructor/courses/${courseId}/quiz`);
             if (res.data) {
-                // Parse options if they are stringified
                 const quizData = res.data;
                 quizData.Questions = quizData.Questions.map(q => ({
                     ...q,
@@ -33,7 +31,6 @@ const QuizManagement = () => {
                 }));
                 setQuiz(quizData);
                 
-                // If quiz exists, fetch attempts
                 const attemptsRes = await api.get(`/instructor/quizzes/${res.data.id}/attempts`);
                 setAttempts(attemptsRes.data);
             }
@@ -272,8 +269,8 @@ const QuizManagement = () => {
                                     </td>
                                     <td>{att.score}%</td>
                                     <td>
-                                        <span className={`status-badge status-${att.isPassed ? 'approved' : 'rejected'}`}>
-                                            {att.isPassed ? 'PASSED' : 'FAILED'}
+                                        <span className={`status-badge status-${att.status === 'PASS' ? 'approved' : 'rejected'}`}>
+                                            {att.status}
                                         </span>
                                     </td>
                                     <td>{new Date(att.createdAt).toLocaleString()}</td>
