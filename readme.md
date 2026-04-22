@@ -206,22 +206,23 @@ npm run dev
 
 ## Admin
 ```bash
-Email: admin@example.com
+Email: admin@quix.com
 Password: admin123
 ```
 
 ## Instructor
 ```bash
-Email: instructor1@example.com
+Email: instructor1@quix.com
 Password: instructor123
 ```
 
 ## Student
 ```bash
-Email: student1@example.com
+Email: student1@quix.com
 Password: student123
 ```
 
 # Author
 Saifullah Anik
+
 https://github.com/sanik4144
