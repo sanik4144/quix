@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import DashboardLayout from '../../layouts/DashboardLayout';
 import api from '../../services/api';
-import { Plus, Edit2, Trash2, Video, FileText, ChevronLeft, ArrowUp, ArrowDown, Settings, ArrowLeft, Play } from 'lucide-react';
+import { Plus, Edit2, Trash2, Video, FileText, ChevronLeft, ArrowUp, ArrowDown, Settings, Play } from 'lucide-react';
 
 const ViewLesson = () => {
     const { courseId } = useParams();
@@ -69,9 +69,6 @@ const ViewLesson = () => {
         <DashboardLayout>
             <div className="page-header flex-between">
                 <div>
-                    <button onClick={() => navigate('/instructor/my-courses')} className="btn-icon" style={{ marginBottom: '1rem' }}>
-                        <ArrowLeft size={20} />
-                    </button>
                     <h1>Lessons: {course?.title}</h1>
                     <p>Manage content, videos, and resources for this course.</p>
                 </div>

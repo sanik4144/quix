@@ -9,7 +9,6 @@ import AdminCourseManagement from './pages/admin/AdminCourseManagement';
 import InstructorDashboard from './pages/instructor/InstructorDashboard';
 import CreateCourse from './pages/instructor/CreateCourse';
 import CourseManagement from './pages/instructor/CourseManagement';
-// import CourseEditor from './pages/instructor/CourseEditor';
 import ViewLesson from './pages/instructor/ViewLesson';
 import LessonForm from './pages/instructor/LessonForm';
 import StudentDashboard from './pages/student/StudentDashboard';
@@ -23,8 +22,10 @@ import LessonPlayer from './pages/student/LessonPlayer';
 import QuizInterface from './pages/student/QuizInterface';
 import CertificateView from './pages/student/CertificateView';
 import EnrolledStudents from './pages/instructor/EnrolledStudents';
+import StudentQuizAttempts from './pages/instructor/StudentQuizAttempts';
 import QuizManagement from './pages/instructor/QuizManagement';
 import './index.css';
+import UserUpdate from './pages/admin/UserUpdate';
 
 
 
@@ -67,6 +68,18 @@ function App() {
                             <AdminCourseManagement />
                         </PrivateRoute>
                     } />
+                    <Route path="/admin/courses/:id" element={
+                        <PrivateRoute allowedRoles={['Super Admin', 'Admin']}>
+                            <CourseView />
+                        </PrivateRoute>
+                    } />
+                    <Route path='/admin/users/:id/update' element={
+                        <PrivateRoute allowedRoles={['Super Admin', 'Admin']}>
+                            <UserUpdate />
+                        </PrivateRoute>
+                    }
+                    
+                    />
 
                     
                     <Route path="/instructor" element={
@@ -109,18 +122,16 @@ function App() {
                             <EnrolledStudents />
                         </PrivateRoute>
                     } />
+                    <Route path="/instructor/courses/:courseId/students/:studentId/attempts" element={
+                        <PrivateRoute allowedRoles={['Instructor']}>
+                            <StudentQuizAttempts />
+                        </PrivateRoute>
+                    } />
                     <Route path="/instructor/courses/:courseId/quiz" element={
                         <PrivateRoute allowedRoles={['Instructor']}>
                             <QuizManagement />
                         </PrivateRoute>
                     } />
-
-
-                    {/* <Route path="/instructor/courses/:id" element={
-                        <PrivateRoute allowedRoles={['Instructor']}>
-                            <CourseEditor />
-                        </PrivateRoute>
-                    } /> */}
 
                     <Route path="/student" element={
                         <PrivateRoute allowedRoles={['Student']}>
@@ -143,12 +154,12 @@ function App() {
                         </PrivateRoute>
                     } />
                     <Route path="/student/lessons/:lessonId" element={
-                        <PrivateRoute allowedRoles={['Student']}>
+                        <PrivateRoute allowedRoles={['Super Admin', 'Student']}>
                             <LessonPlayer />
                         </PrivateRoute>
                     } />
                     <Route path="/student/quizzes/:quizId" element={
-                        <PrivateRoute allowedRoles={['Student']}>
+                        <PrivateRoute allowedRoles={['Super Admin', 'Student']}>
                             <QuizInterface />
                         </PrivateRoute>
                     } />

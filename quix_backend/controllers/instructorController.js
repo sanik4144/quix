@@ -267,4 +267,27 @@ export const getQuizAttemptsForInstructor = async (req, res) => {
         res.status(500).json({ message: error.message });
     }
 };
+export const getStudentQuizAttemptsForInstructor = async (req, res) => {
+    try {
+        const { courseId, studentId } = req.params;
+        
+        // First verify that this instructor owns the course
+        const course = await Course.findOne({ 
+            where: { id: courseId, instructorId: req.user.id } 
+        });
+        if (!course) return res.status(403).json({ message: 'Unauthorized' });
 
+        const attempts = await QuizAttempt.findAll({
+            include: [{
+                model: Quiz,
+                where: { courseId },
+                attributes: ['title', 'passPercentage']
+            }],
+            where: { studentId },
+            order: [['createdAt', 'DESC']]
+        });
+        res.json(attempts);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};

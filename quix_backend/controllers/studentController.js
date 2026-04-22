@@ -178,4 +178,19 @@ export const submitQuizAttempt = async (req, res) => {
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
+};export const getQuizAttempt = async (req, res) => {
+    try {
+        const { attemptId } = req.params;
+        const attempt = await QuizAttempt.findOne({
+            where: { id: attemptId, studentId: req.user.id },
+            include: [{
+                model: Quiz,
+                include: [{ model: Course, attributes: ['title'] }]
+            }]
+        });
+        if (!attempt) return res.status(404).json({ message: 'Attempt not found' });
+        res.json(attempt);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
 };

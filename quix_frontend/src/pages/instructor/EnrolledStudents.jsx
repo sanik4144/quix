@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import DashboardLayout from '../../layouts/DashboardLayout';
 import api from '../../services/api';
-import { ArrowLeft, Mail, User } from 'lucide-react';
+import { Mail, User, Eye } from 'lucide-react';
 
 const EnrolledStudents = () => {
     const { courseId } = useParams();
@@ -28,9 +28,6 @@ const EnrolledStudents = () => {
         <DashboardLayout>
             <div className="page-header flex-between">
                 <div>
-                    <button onClick={() => navigate(-1)} className="btn-icon" style={{ marginBottom: '1rem' }}>
-                        <ArrowLeft size={20} />
-                    </button>
                     <h1>Enrolled Students</h1>
                     <p>View and manage students enrolled in this course.</p>
                 </div>
@@ -66,9 +63,15 @@ const EnrolledStudents = () => {
                                     </td>
                                     <td>{new Date(env.createdAt).toLocaleDateString()}</td>
                                     <td>
-                                        <button className="btn-icon" title="Email Student">
-                                            <Mail size={16} color="var(--primary)" />
-                                        </button>
+                                        <div style={{ display: 'flex', gap: '0.5rem' }}>
+                                            <button 
+                                                className="custom-blue-btn" 
+                                                title="View Quiz Attempts"
+                                                onClick={() => navigate(`/instructor/courses/${courseId}/students/${env.studentId}/attempts`)}
+                                            >
+                                                <Eye size={16} />
+                                            </button>
+                                        </div>
                                     </td>
                                 </tr>
                             ))

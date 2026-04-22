@@ -1,8 +1,9 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import api from '../../services/api';
-import { Award, Download, Printer, ArrowLeft } from 'lucide-react';
+import { Award, Download, Printer } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
+import html2pdf from 'html2pdf.js';
 
 const CertificateView = () => {
     const { attemptId } = useParams();
@@ -32,6 +33,18 @@ const CertificateView = () => {
         window.print();
     };
 
+    const handleDownload = () => {
+        const element = certificateRef.current;
+        const opt = {
+            margin: 0,
+            filename: `${user.fullName}-Certificate.pdf`,
+            image: { type: 'jpeg', quality: 0.98 },
+            html2canvas: { scale: 2, useCORS: true },
+            jsPDF: { unit: 'in', format: 'letter', orientation: 'landscape' }
+        };
+        html2pdf().set(opt).from(element).save();
+    };
+
     if (loading) return <div className="flex-center" style={{ height: '100vh' }}>Loading certificate...</div>;
     if (!attempt) return <div className="flex-center" style={{ height: '100vh' }}>Certificate not found</div>;
 
@@ -43,11 +56,11 @@ const CertificateView = () => {
 
     return (
         <div className="certificate-page" style={{ padding: '2rem', minHeight: '100vh', background: '#f1f5f9' }}>
-            <div className="no-print" style={{ maxWidth: '800px', margin: '0 auto 2rem', display: 'flex', justifyContent: 'space-between' }}>
-                <button onClick={() => navigate(-1)} className="btn-primary" style={{ background: 'white', color: 'var(--text)', borderColor: 'var(--border)' }}>
-                    <ArrowLeft size={18} style={{ marginRight: '0.5rem' }} /> Back
+            <div className="no-print" style={{ maxWidth: '800px', margin: '0 auto 2rem', display: 'flex', justifyContent: 'space-between', gap: '1rem' }}>
+                <button onClick={handleDownload} className="btn-primary" style={{ flex: 1 }}>
+                    <Download size={18} style={{ marginRight: '0.5rem' }} /> Download PDF
                 </button>
-                <button onClick={handlePrint} className="btn-primary">
+                <button onClick={handlePrint} className="btn-primary" style={{ flex: 1, background: 'white', color: 'var(--text)', borderColor: 'var(--border)' }}>
                     <Printer size={18} style={{ marginRight: '0.5rem' }} /> Print Certificate
                 </button>
             </div>

@@ -83,37 +83,37 @@ const CourseManagement = () => {
                                 </td>
                                 <td>
                                     <div style={{ display: 'flex', gap: '0.5rem' }}>
-                                        <button className="btn-icon" title="Edit" onClick={() => navigate(`/instructor/courses/${course.id}/edit`)}>
-                                            <Edit2 size={18} color="var(--primary)" />
+                                        <button className="custom-blue-btn" title="Edit" onClick={() => navigate(`/instructor/courses/${course.id}/edit`)}>
+                                            <Edit2 size={18}/>
                                         </button>
                                         <button 
                                             onClick={()=> navigate(`/instructor/courses/${course.id}/lessons`)}
-                                            className="btn-icon" 
+                                            className="custom-yellow-btn" 
                                             title="Lessons"
                                         >
-                                            <Eye size={18} color="#f59e0b" />
+                                            <Eye size={18} />
                                         </button>
                                         <button 
                                             onClick={()=> navigate(`/instructor/courses/${course.id}/students`)}
-                                            className="btn-icon" 
+                                            className="custom-blue-btn" 
                                             title="Enrolled Students"
                                         >
-                                            <Users size={18} color="#8b5cf6" />
+                                            <Users size={18} />
                                         </button>
                                         {course.status === 'DRAFT' && (
                                             <button 
                                                 onClick={() => handleSubmitForReview(course.id)}
-                                                className="btn-icon" 
+                                                className="custom-green-btn" 
                                                 title="Submit for Review"
                                             >
-                                                <Send size={18} color="#22c55e" />
+                                                <Send size={18} />
                                             </button>
                                         )}
                                         <button
                                             onClick={()=> deleteCourse(course.id)}
-                                            className="btn-icon" 
+                                            className="custom-red-btn" 
                                             title="Delete">
-                                            <Trash2 size={18} color="#ef4444" />
+                                            <Trash2 size={18} />
                                         </button>
                                     </div>
                                 </td>

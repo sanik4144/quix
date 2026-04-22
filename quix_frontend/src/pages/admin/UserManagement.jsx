@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import DashboardLayout from '../../layouts/DashboardLayout';
 import api from '../../services/api';
-import { Check, X, UserMinus, Search } from 'lucide-react';
+import { Check, X, UserMinus, Search, Edit2 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
+import { useNavigate } from 'react-router-dom';
 
 const UserManagement = () => {
     const [page, setPage] = useState(1);
@@ -20,6 +21,7 @@ const UserManagement = () => {
     const [loading, setLoading] = useState(true);
     const [remarksMap, setRemarksMap] = useState({});
     const { user: currentUser } = useAuth();
+    const navigate = useNavigate();
 
     const fetchUsers = async () => {
         try {
@@ -151,6 +153,7 @@ const UserManagement = () => {
                 <table>
                     <thead>
                         <tr>
+                            <th></th>
                             <th>Full Name</th>
                             <th>Email</th>
                             <th>Role</th>
@@ -162,6 +165,13 @@ const UserManagement = () => {
                     <tbody>
                         {filteredUsers.map((user) => (
                             <tr key={user.id}>
+                                <td>
+                                    <button 
+                                        onClick={()=> navigate(`/admin/users/${user.id}/update`)}
+                                        className='custom-blue-btn'>
+                                        <Edit2 size={20} />
+                                    </button>
+                                </td>
                                 <td style={{ fontWeight: '600' }}>{user.fullName}</td>
                                 <td>{user.email}</td>
                                 <td>
@@ -202,45 +212,45 @@ const UserManagement = () => {
                                             <>
                                                 <button 
                                                     onClick={() => handleStatusUpdate(user.id, 'APPROVED', remarksMap[user.id])}
-                                                    className="btn-icon"
+                                                    className="custom-green-btn"
                                                     title="Approve"
                                                 >
-                                                    <Check size={20} color="#22c55e" />
+                                                    <Check size={22} />
                                                 </button>
                                                 <button 
                                                     onClick={() => handleStatusUpdate(user.id, 'REJECTED', remarksMap[user.id])}
-                                                    className="btn-icon"
+                                                    className="custom-red-btn"
                                                     title="Reject"
                                                 >
-                                                    <X size={20} color="#ef4444" />
+                                                    <X size={22} />
                                                 </button>
                                             </>
                                         )}
                                         {user.status === 'APPROVED' && user.Role?.name !== 'Super Admin' && (
                                             <button 
                                                 onClick={() => handleStatusUpdate(user.id, 'SUSPENDED', remarksMap[user.id])}
-                                                className="btn-icon"
+                                                className="custom-yellow-btn"
                                                 title="Suspend"
                                             >
-                                                <UserMinus size={20} color="#f59e0b" />
+                                                <UserMinus size={22} />
                                             </button>
                                         )}
                                         {user.status === 'REJECTED' && (
                                             <button 
                                                 onClick={() => handleStatusUpdate(user.id, 'APPROVED', remarksMap[user.id])}
-                                                className="btn-icon"
+                                                className="custom-green-btn"
                                                 title="Approve"
                                             >
-                                                <Check size={20} color="#22c55e" />
+                                                <Check size={22} />
                                             </button>
                                         )}
                                         {user.status === 'SUSPENDED' && (
                                             <button 
                                                 onClick={() => handleStatusUpdate(user.id, 'APPROVED', remarksMap[user.id])}
-                                                className="btn-icon"
+                                                className="custom-green-btn"
                                                 title="Re-activate"
                                             >
-                                                <Check size={20} color="#22c55e" />
+                                                <Check size={22} />
                                             </button>
                                         )}
                                     </div>

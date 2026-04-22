@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import DashboardLayout from '../../layouts/DashboardLayout';
 import api from '../../services/api';
-import { Plus, Trash2, Save, ArrowLeft, Users, List, HelpCircle, Clock, Award } from 'lucide-react';
+import { Plus, Trash2, Save, Users, List, HelpCircle, Clock, Award } from 'lucide-react';
 
 const QuizManagement = () => {
     const { courseId } = useParams();
@@ -93,9 +93,6 @@ const QuizManagement = () => {
         <DashboardLayout>
             <div className="page-header flex-between">
                 <div>
-                    <button onClick={() => navigate(-1)} className="btn-icon" style={{ marginBottom: '1rem' }}>
-                        <ArrowLeft size={20} />
-                    </button>
                     <h1>Quiz Management</h1>
                     <p>Configure assessment and view student performance.</p>
                 </div>

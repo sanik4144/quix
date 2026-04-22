@@ -3,7 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import DashboardLayout from '../../layouts/DashboardLayout';
 import api from '../../services/api';
 import { useAuth } from '../../context/AuthContext';
-import { Play, Lock, CheckCircle, BookOpen, User, Clock, Star, HelpCircle } from 'lucide-react';
+import { Play, Lock, CheckCircle, BookOpen, User, Clock, HelpCircle, Award } from 'lucide-react';
 
 const CourseView = () => {
     const { id } = useParams();
@@ -132,13 +132,24 @@ const CourseView = () => {
                                             </p>
                                         </div>
                                     </div>
-                                    <button 
-                                        onClick={() => isEnrolled ? navigate(`/student/quizzes/${course.Quiz.id}`) : alert('Please enroll to take the quiz')}
-                                        className="btn-primary"
-                                        style={{ padding: '0.75rem 2rem', opacity: isEnrolled ? 1 : 0.6 }}
-                                    >
-                                        {course.Quiz.QuizAttempts?.[0] ? 'Retake Quiz' : 'Take Quiz'}
-                                    </button>
+                                    <div style={{ display: 'flex', gap: '1rem' }}>
+                                        {course.Quiz.QuizAttempts?.[0]?.status === 'PASS' && (
+                                            <button 
+                                                onClick={() => navigate(`/student/certificates/${course.Quiz.QuizAttempts[0].id}`)}
+                                                className="btn-primary"
+                                                style={{ padding: '0.75rem 2rem', background: 'white', color: 'var(--primary)', border: '1px solid var(--primary)' }}
+                                            >
+                                                <Award size={18} style={{ marginRight: '0.5rem' }} /> Certificate
+                                            </button>
+                                        )}
+                                        <button 
+                                            onClick={() => isEnrolled ? navigate(`/student/quizzes/${course.Quiz.id}`) : alert('Please enroll to take the quiz')}
+                                            className="btn-primary"
+                                            style={{ padding: '0.75rem 2rem', opacity: isEnrolled ? 1 : 0.6 }}
+                                        >
+                                            {course.Quiz.QuizAttempts?.[0] ? 'Retake Quiz' : 'Take Quiz'}
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
                         </div>

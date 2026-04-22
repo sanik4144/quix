@@ -1,11 +1,13 @@
 import { React, useState, useEffect } from 'react';
 import DashboardLayout from '../../layouts/DashboardLayout';
 import api from '../../services/api';
-import { Check, X, Trash } from 'lucide-react';
+import { Check, X, Trash, Eye } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 const AdminCourseManagement = () => {
     const [courses, setCourses] = useState([]);
     const [loading, setLoading] = useState(true);
+    const navigate = useNavigate();
 
     const fetchCourses = async () => {
         try {
@@ -52,6 +54,7 @@ const AdminCourseManagement = () => {
                 <table>
                     <thead>
                         <tr>
+                            <th></th>
                             <th>Title</th>
                             <th>Description</th>
                             <th>Category</th>
@@ -67,8 +70,16 @@ const AdminCourseManagement = () => {
                         {
                             courses.map((course) => (
                                 <tr key={course.id}>
+                                    <td>
+                                        <button
+                                            onClick={()=>navigate(`/admin/courses/${course.id}`)}
+                                            className='custom-blue-btn'
+                                        >
+                                            < Eye size={18}/>
+                                        </button>
+                                    </td>
                                     <td style={{ fontWeight: '600' }}>{course.title}</td>
-                                    <td style={{ maxWidth: '250px', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{course.description}</td>
+                                    <td style={{ maxWidth: '150px', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{course.description}</td>
                                     <td>{course.category}</td>
                                     <td>{course.instructor.fullName}</td>
                                     <td>
@@ -88,44 +99,44 @@ const AdminCourseManagement = () => {
                                                 <>
                                                     <button
                                                         onClick={() => handleStatusUpdate(course.id, 'APPROVED')}
-                                                        className="btn-icon"
+                                                        className="custom-green-btn"
                                                         title='Publish'
                                                     >
-                                                        <Check size={20} color="#22c55e" />
+                                                        <Check size={20} />
                                                     </button>
                                                     <button
                                                         onClick={() => handleStatusUpdate(course.id, 'REJECTED')}
-                                                        className='btn-icon'
+                                                        className='custom-red-btn'
                                                         title='Reject'
                                                     >
-                                                        <X size={20} color="#ef4444" />
+                                                        <X size={20} />
                                                     </button>
                                                 </>
                                             )}
                                             {course.status === 'APPROVED' && (
                                                 <button
                                                     onClick={() => handleStatusUpdate(course.id, 'DRAFT')}
-                                                    className='btn-icon'
+                                                    className='custom-yellow-btn'
                                                     title='Unpublish (Draft)'
                                                 >
-                                                    <X size={20} color="#f59e0b" />
+                                                    <X size={20} />
                                                 </button>
                                             )}
                                             {course.status === 'REJECTED' && (
                                                 <>
                                                     <button
                                                         onClick={() => handleStatusUpdate(course.id, 'APPROVED')}
-                                                        className="btn-icon"
+                                                        className="custom-green-btn"
                                                         title='Publish'
                                                     >
-                                                        <Check size={20} color="#22c55e" />
+                                                        <Check size={20} />
                                                     </button>
                                                     <button
                                                         onClick={() => deleteCourse(course.id)}
-                                                        className="btn-icon"
+                                                        className="custom-red-btn"
                                                         title='Delete'
                                                     >
-                                                        <Trash size={20} color="#ef4444" />
+                                                        <Trash size={20} />
                                                     </button>
                                                 </>
                                             )}

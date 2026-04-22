@@ -7,7 +7,8 @@ import {
     getLessonContent,
     markLessonComplete,
     submitQuizAttempt,
-    getQuizDetail
+    getQuizDetail,
+    getQuizAttempt
 } from '../controllers/studentController.js';
 import { authenticate, authorize } from '../middleware/authMiddleware.js';
 
@@ -31,5 +32,6 @@ router.post('/lessons/:lessonId/complete', markLessonComplete);
 // Quiz
 router.get('/quizzes/:quizId', getQuizDetail);
 router.post('/quizzes/:quizId/attempt', submitQuizAttempt);
+router.get('/quiz-attempts/:attemptId', getQuizAttempt);
 
 export default router;

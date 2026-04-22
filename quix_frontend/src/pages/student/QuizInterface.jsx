@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import DashboardLayout from '../../layouts/DashboardLayout';
 import api from '../../services/api';
-import { HelpCircle, ChevronRight, CheckCircle, AlertCircle, Clock, Award, History, ArrowLeft, RefreshCw } from 'lucide-react';
+import { HelpCircle, ChevronRight, CheckCircle, AlertCircle, Clock, Award, RefreshCw } from 'lucide-react';
 
 const QuizInterface = () => {
     const { quizId } = useParams();
@@ -149,9 +149,7 @@ const QuizInterface = () => {
                         </div>
 
                         <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center' }}>
-                            <button onClick={() => navigate(-1)} className="btn-primary" style={{ background: 'white', color: 'var(--text)', borderColor: 'var(--border)' }}>
-                                <ArrowLeft size={18} style={{ marginRight: '0.5rem' }} /> Back
-                            </button>
+
                             <button onClick={() => window.location.reload()} className="btn-primary">
                                 <RefreshCw size={18} style={{ marginRight: '0.5rem' }} /> Retake Quiz
                             </button>

@@ -45,6 +45,46 @@ export const getAllUsers = async (req, res) => {
     }
 };
 
+export const fetchUser = async (req, res)=>{
+    try {
+        const {id} = req.params;
+
+        const user =await User.findByPk(id, {
+            include: [{model: Role}]
+        });
+        if(!user) return res.status(404).json({message: "User not Found"})
+
+        res.status(200).json({
+            message: "Successfull",
+            user: user,
+        })
+    } catch (error) {
+        res.status(500).json({message: error.message});
+    }
+}
+
+export const updateUser = async (req, res)=>{
+    try {
+        const {id} = req.params;
+        const {fullName, email, roleId, remarks} = req.body;
+
+        const user = await User.findByPk(id);
+        if(!user) return res.status(404).json({message: "User not found"});
+
+        user.fullName = fullName;
+        user.email = email;
+        user.roleId = roleId;
+        user.remarks = remarks;
+
+        await user.save();
+
+        res.status(200).json({message: "User updated successfully"});
+
+    } catch (error) {
+        res.json({ message: error.message});
+    }
+}
+
 export const updateUserStatus = async (req, res) => {
     try {
         const { id } = req.params;

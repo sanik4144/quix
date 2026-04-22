@@ -1,4 +1,4 @@
-import { Save, ArrowLeft, Image as ImageIcon, Tag, BarChart, DollarSign } from 'lucide-react';
+import { Save, Image as ImageIcon, Tag, BarChart, DollarSign } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import DashboardLayout from '../../layouts/DashboardLayout';
@@ -27,7 +27,7 @@ const CreateCourse = () => {
                     const res = await api.get(`/instructor/courses/${id}`);
                     setForm(res.data);
                 } catch (err) {
-                    alert('Failed to fetch course details');
+                    alert('Failed to fetch course details' + err);
                     navigate('/instructor/my-courses');
                 }
             };
@@ -65,9 +65,6 @@ const CreateCourse = () => {
         <DashboardLayout>
             <div style={{ maxWidth: '900px', margin: '0 auto' }}>
                 <div className="page-header">
-                    <button onClick={() => navigate(-1)} className="btn-icon" style={{ marginBottom: '1rem' }}>
-                        <ArrowLeft size={20} />
-                    </button>
                     <h1>{isEditMode ? 'Edit Course' : 'Create New Course'}</h1>
                     <p>{isEditMode ? 'Update your course content and maintain excellence.' : 'Launch your educational journey by creating a premium learning experience.'}</p>
                 </div>

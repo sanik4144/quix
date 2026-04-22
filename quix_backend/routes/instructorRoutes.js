@@ -16,7 +16,8 @@ import {
     getQuizDetail,
     deleteQuestion,
     getQuizAttemptsForInstructor,
-    getCourseDetail
+    getCourseDetail,
+    getStudentQuizAttemptsForInstructor
 } from '../controllers/instructorController.js';
 
 import { authenticate, authorize } from '../middleware/authMiddleware.js';
@@ -51,5 +52,6 @@ router.post('/courses/:courseId/quiz', createQuiz);
 router.post('/quizzes/:quizId/questions', addQuestionToQuiz);
 router.delete('/questions/:id', deleteQuestion);
 router.get('/quizzes/:quizId/attempts', getQuizAttemptsForInstructor);
+router.get('/courses/:courseId/students/:studentId/attempts', getStudentQuizAttemptsForInstructor);
 
 export default router;
