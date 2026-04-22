@@ -155,7 +155,7 @@ Quix/
 
 ```
 
-## ER Diagram
+# ER Diagram
 
 https://drive.google.com/file/d/1vsHAYakrSNM_TKSw7O4VL7eRG5UfKlHY/view?usp=sharing
 
@@ -170,6 +170,8 @@ cd quix
 cd quix_backend
 npm install
 ```
+
+Create .env
 
 ```.env
 PORT=3000
@@ -191,6 +193,8 @@ cd frontend
 npm install
 ```
 
+Create .env
+
 ```.env
 VITE_API_URL=http://localhost:3000/api
 ```
@@ -198,3 +202,26 @@ VITE_API_URL=http://localhost:3000/api
 ```bash
 npm run dev
 ```
+# Credentials
+
+## Admin
+```bash
+Email: admin@example.com
+Password: admin123
+```
+
+## Instructor
+```bash
+Email: instructor1@example.com
+Password: instructor123
+```
+
+## Student
+```bash
+Email: student1@example.com
+Password: student123
+```
+
+# Author
+Saifullah Anik
+https://github.com/sanik4144
