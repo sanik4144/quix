@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import DashboardLayout from '../../layouts/DashboardLayout';
 import api from '../../services/api';
-import { Search, BookOpen, Star, Filter } from 'lucide-react';
+import { Search, BookOpen } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
 const BrowseCourses = () => {

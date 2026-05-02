@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import DashboardLayout from '../../layouts/DashboardLayout';
 import api from '../../services/api';
-import { Award, Calendar, CheckCircle, XCircle } from 'lucide-react';
+import { Award, Calendar } from 'lucide-react';
 
 const StudentQuizAttempts = () => {
     const { courseId, studentId } = useParams();
-    const navigate = useNavigate();
     const [attempts, setAttempts] = useState([]);
     const [loading, setLoading] = useState(true);
 

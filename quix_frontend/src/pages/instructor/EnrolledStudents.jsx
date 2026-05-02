@@ -45,29 +45,29 @@ const EnrolledStudents = () => {
                     </thead>
                     <tbody>
                         {enrollments.length > 0 ? (
-                            enrollments.map((env) => (
-                                <tr key={env.id}>
+                            enrollments.map((enr) => (
+                                <tr key={enr.id}>
                                     <td>
                                         <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
                                             <div style={{ width: '32px', height: '32px', borderRadius: '50%', background: '#e2e8f0', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                                                 <User size={16} color="#64748b" />
                                             </div>
-                                            <span style={{ fontWeight: '600' }}>{env.student?.fullName}</span>
+                                            <span style={{ fontWeight: '600' }}>{enr.student?.fullName}</span>
                                         </div>
                                     </td>
                                     <td>
                                         <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
                                             <Mail size={14} color="#64748b" />
-                                            {env.student?.email}
+                                            {enr.student?.email}
                                         </div>
                                     </td>
-                                    <td>{new Date(env.createdAt).toLocaleDateString()}</td>
+                                    <td>{new Date(enr.createdAt).toLocaleDateString()}</td>
                                     <td>
                                         <div style={{ display: 'flex', gap: '0.5rem' }}>
                                             <button 
                                                 className="custom-blue-btn" 
                                                 title="View Quiz Attempts"
-                                                onClick={() => navigate(`/instructor/courses/${courseId}/students/${env.studentId}/attempts`)}
+                                                onClick={() => navigate(`/instructor/courses/${courseId}/students/${enr.studentId}/attempts`)}
                                             >
                                                 <Eye size={16} />
                                             </button>

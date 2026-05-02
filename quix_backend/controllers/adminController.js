@@ -1,11 +1,30 @@
 import { User, Role, Course, Enrollment } from '../models/index.js';
+import { Op } from 'sequelize';
 
 // Admin Dashboard Stats
 export const getAdminDashboardStats = async (req, res) => {
     try {
-        const totalUsers = await User.count();
-        const totalCourses = await Course.count();
-        const pendingApprovals = await User.count({ where: { status: 'PENDING' } });
+        const totalUsers = await User.count({
+            where:{
+                status:{
+                    [Op.eq]: 'APPROVED'
+                }
+            }
+        });
+        const totalCourses = await Course.count({
+             where: {
+                status: {
+                    [Op.eq]: 'APPROVED'
+                }
+            }
+        });
+        const pendingApprovals = await User.count({
+             where: { 
+                status: {
+                    [Op.eq]: 'PENDING'
+                } 
+            } 
+        });
         const totalEnrollments = await Enrollment.count();
 
         res.json({

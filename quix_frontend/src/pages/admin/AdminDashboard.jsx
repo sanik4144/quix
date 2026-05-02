@@ -100,12 +100,12 @@ const AdminDashboard = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        {courses.filter(c => c.status === 'SUBMITTED').map(course => (
+                        {courses.filter(c => c.status === 'PENDING').map(course => (
                             <tr key={course.id}>
                                 <td className="font-medium">{course.title}</td>
                                 <td>{course.instructor?.fullName}</td>
                                 <td>
-                                    <span className="status-badge status-pending">SUBMITTED</span>
+                                    <span className="status-badge status-pending">PENDING</span>
                                 </td>
                                 <td>
                                     <button 
@@ -118,7 +118,7 @@ const AdminDashboard = () => {
                                 </td>
                             </tr>
                         ))}
-                        {courses.filter(c => c.status === 'SUBMITTED').length === 0 && (
+                        {courses.filter(c => c.status === 'PENDING').length === 0 && (
                             <tr>
                                 <td colSpan="4" className="text-center p-8 text-muted">No courses waiting for review.</td>
                             </tr>
