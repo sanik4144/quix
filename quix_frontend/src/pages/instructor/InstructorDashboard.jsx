@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import DashboardLayout from '../../layouts/DashboardLayout';
 import api from '../../services/api';
-import { BookOpen, Users, Award, TrendingUp, MoreVertical, Plus } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { BookOpen, Users, Award, TrendingUp, Plus, Edit2} from 'lucide-react';
+import { Link, useNavigate } from 'react-router-dom';
 
 const InstructorDashboard = () => {
     const [stats, setStats] = useState({
@@ -12,6 +12,7 @@ const InstructorDashboard = () => {
     });
     const [recentCourses, setRecentCourses] = useState([]);
     const [loading, setLoading] = useState(true);
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchData = async () => {
@@ -21,7 +22,7 @@ const InstructorDashboard = () => {
                     api.get('/instructor/courses')
                 ]);
                 setStats(statsRes.data);
-                setRecentCourses(coursesRes.data.slice(0, 5));
+                setRecentCourses(coursesRes.data.slice(0, 3));
             } catch (err) {
                 console.error(err);
             } finally {
@@ -30,15 +31,6 @@ const InstructorDashboard = () => {
         };
         fetchData();
     }, []);
-
-    const getStatusColor = (status) => {
-        switch (status) {
-            case 'APPROVED': return '#22c55e';
-            case 'PENDING': return '#f59e0b';
-            case 'DRAFT': return '#64748b';
-            default: return '#64748b';
-        }
-    };
 
     return (
         <DashboardLayout>
@@ -102,8 +94,7 @@ const InstructorDashboard = () => {
                             <th>Course Info</th>
                             <th>Status</th>
                             <th>Category</th>
-                            <th>Students</th>
-                            <th>Actions</th>
+                            <th>Details</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -115,24 +106,19 @@ const InstructorDashboard = () => {
                                         <div style={{ fontSize: '0.75rem', color: '#64748b' }}>Created: {new Date(course.createdAt).toLocaleDateString()}</div>
                                     </td>
                                     <td>
-                                        <span 
-                                            style={{ 
-                                                padding: '0.25rem 0.75rem', 
-                                                borderRadius: '9999px', 
-                                                fontSize: '0.75rem', 
-                                                backgroundColor: `${getStatusColor(course.status)}20`, 
-                                                color: getStatusColor(course.status),
-                                                fontWeight: '600'
-                                            }}
+                                        <span       
+                                            className={`status-badge status-${course.status.toLowerCase()}`}
                                         >
                                             {course.status}
                                         </span>
                                     </td>
                                     <td>{course.category}</td>
-                                    <td>0</td> {/* Need enrollment count per course */}
                                     <td>
-                                        <button className="btn-icon">
-                                            <MoreVertical size={16} />
+                                        <button
+                                            className="btn-icon custom-blue-btn"
+                                            onClick={()=> navigate(`/instructor/courses/${course.id}/edit`)}
+                                            >
+                                            <Edit2 size={18} />
                                         </button>
                                     </td>
                                 </tr>

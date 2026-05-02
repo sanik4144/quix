@@ -7,7 +7,7 @@ import { Save, X, Info } from 'lucide-react';
 const LessonForm = () => {
     const { courseId, lessonId } = useParams();
     const navigate = useNavigate();
-    const isEdit = !!lessonId;
+    const isEdit = Boolean(lessonId);
     
     const [formData, setFormData] = useState({
         title: '',
@@ -110,7 +110,7 @@ const LessonForm = () => {
                         <div className="flex-between" style={{ padding: '1.25rem', background: '#f8fafc', borderRadius: '0.75rem', border: '1px solid var(--border)' }}>
                             <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
                                 <div style={{ width: '40px', height: '40px', borderRadius: '50%', background: 'rgba(99, 102, 241, 0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                                    <Info size={20} color="var(--primary)" />
+                                    <Info size={20}/>
                                 </div>
                                 <div>
                                     <div style={{ fontWeight: '600', fontSize: '0.925rem' }}>Free Preview</div>

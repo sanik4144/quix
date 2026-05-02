@@ -122,7 +122,6 @@ const CreateCourse = () => {
                                     placeholder="Paste high-quality image URL"
                                     value={form.thumbnail}
                                     onChange={handleChange}
-                                    required
                                 />
                             </div>
                         </div>

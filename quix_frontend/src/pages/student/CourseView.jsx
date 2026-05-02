@@ -2,12 +2,10 @@ import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import DashboardLayout from '../../layouts/DashboardLayout';
 import api from '../../services/api';
-import { useAuth } from '../../context/AuthContext';
 import { Play, Lock, CheckCircle, BookOpen, User, Clock, HelpCircle, Award } from 'lucide-react';
 
 const CourseView = () => {
     const { id } = useParams();
-    const { user } = useAuth();
     const navigate = useNavigate();
     const [course, setCourse] = useState(null);
     const [isEnrolled, setIsEnrolled] = useState(false);
@@ -18,7 +16,6 @@ const CourseView = () => {
             try {
                 const res = await api.get(`/student/courses/${id}`);
                 setCourse(res.data);
-                console.log(res.data);
                 const enrollments = await api.get('/student/enrolled-courses');
 
                 setIsEnrolled(enrollments.data.some(e => e.courseId === id));
@@ -82,7 +79,7 @@ const CourseView = () => {
                             {course.Lessons?.sort((a,b) => a.order - b.order).map((lesson) => (
                                 <div 
                                     key={lesson.id} 
-                                    className={`lesson-item ${isEnrolled || lesson.isFreePreview ? '' : 'locked'}`}
+                                    className={`lesson-item`}
                                     style={{ 
                                         cursor: isEnrolled || lesson.isFreePreview ? 'pointer' : 'default',
                                         opacity: isEnrolled || lesson.isFreePreview ? 1 : 0.6

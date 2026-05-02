@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import DashboardLayout from '../../layouts/DashboardLayout';
 import api from '../../services/api';
-import { PlayCircle, Award, Clock, BookOpen, ChevronRight, Zap } from 'lucide-react';
+import { Award, Clock, BookOpen, ChevronRight, Zap } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
 const StudentDashboard = () => {
@@ -46,26 +46,6 @@ const StudentDashboard = () => {
                 <p>Pick up where you left off and keep growing.</p>
             </div>
 
-            {/* Quick Resume */}
-            {data.lastLesson && (
-                <div className="card mb-8" style={{ marginBottom: '2rem', display: 'flex', alignItems: 'center', justifyContent: 'space-between', background: 'linear-gradient(90deg, #6366f1 0%, #a855f7 100%)', color: 'white', border: 'none' }}>
-                    <div className="flex-column" style={{ gap: '0.5rem' }}>
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                            <Zap size={20} />
-                            <span style={{ fontSize: '0.875rem', fontWeight: '500', opacity: 0.9 }}>QUICK RESUME</span>
-                        </div>
-                        <h2 style={{ fontSize: '1.5rem', fontWeight: '700' }}>{data.lastLesson.Course?.title}</h2>
-                    </div>
-                    <button 
-                        onClick={() => navigate(`/student/courses/${data.lastLesson.Course?.id}`)}
-                        className="btn-primary" 
-                        style={{ background: 'white', color: 'var(--primary)', padding: '0.75rem 1.5rem', fontWeight: '700', borderRadius: '0.5rem', border: 'none' }}
-                    >
-                        Resume Course
-                    </button>
-                </div>
-            )}
-
             <div className="stats-grid">
                 <div className="stat-card">
                     <div className="stat-icon" style={{ backgroundColor: '#e0e7ff', color: '#4338ca' }}>
@@ -91,13 +71,12 @@ const StudentDashboard = () => {
                     </div>
                     <div className="stat-info">
                         <h3>Certificates</h3>
-                        <p>{data.enrollments.filter(e => e.progress === 100).length}</p>
+                        <p>{data.enrollments.filter(e => e.progress == 100).length}</p>
                     </div>
                 </div>
             </div>
 
-            <div className="grid-2 mt-8" style={{ display: 'grid', gridTemplateColumns: 'minmax(0, 2fr) minmax(0, 1fr)', gap: '2rem', marginTop: '2.5rem' }}>
-                {/* Enrolled Courses */}
+            <div style={{ display: 'grid',  gap: '2rem', marginTop: '2.5rem' }}>
                 <div>
                     <div className="flex-between" style={{ marginBottom: '1.5rem' }}>
                         <h2 style={{ fontSize: '1.25rem', fontWeight: '700' }}>My Learning</h2>
@@ -151,7 +130,7 @@ const StudentDashboard = () => {
                     {data.featuredCourses.length > 0 && (
                         <div style={{ marginTop: '3rem' }}>
                             <h2 style={{ fontSize: '1.25rem', fontWeight: '700', marginBottom: '1.5rem' }}>Recommended for You</h2>
-                            <div className="grid-2" style={{ gap: '1.5rem' }}>
+                            <div className="grid-3" style={{ gap: '1.5rem' }}>
                                 {data.featuredCourses.map(course => (
                                     <div key={course.id} className="card card-hover" style={{ padding: '1.25rem' }}>
                                         <div style={{ height: '120px', background: '#f1f5f9', borderRadius: '0.5rem', marginBottom: '1rem', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
@@ -173,24 +152,7 @@ const StudentDashboard = () => {
                             </div>
                         </div>
                     )}
-                </div>
-
-                {/* Recent Activity */}
-                <div>
-                    <h2 style={{ fontSize: '1.25rem', fontWeight: '700', marginBottom: '1.5rem' }}>Recent Quizzes</h2>
-                    <div className="card" style={{ padding: '1.5rem' }}>
-                        {data.recentQuizzes.length > 0 ? (
-                            <div className="flex-column">
-                                {/* Map actual quiz history here */}
-                            </div>
-                        ) : (
-                            <div style={{ textAlign: 'center', padding: '2rem', color: 'var(--text-muted)' }}>
-                                <Award size={32} style={{ margin: '0 auto 1rem', opacity: 0.3 }} />
-                                <p style={{ fontSize: '0.875rem' }}>No quiz attempts yet. Complete a course to test your skills!</p>
-                            </div>
-                        )}
-                    </div>
-                </div>
+                </div>               
             </div>
         </DashboardLayout>
     );

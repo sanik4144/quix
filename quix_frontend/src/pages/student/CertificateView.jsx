@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import api from '../../services/api';
 import { Award, Download, Printer } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
@@ -8,7 +8,6 @@ import html2pdf from 'html2pdf.js';
 const CertificateView = () => {
     const { attemptId } = useParams();
     const { user } = useAuth();
-    const navigate = useNavigate();
     const [attempt, setAttempt] = useState(null);
     const [loading, setLoading] = useState(true);
     const certificateRef = useRef();
@@ -16,8 +15,6 @@ const CertificateView = () => {
     useEffect(() => {
         const fetchAttempt = async () => {
             try {
-                // We might need a specific endpoint for attempt details or use quiz attempts
-                // For now, let's assume we can fetch by attemptId
                 const res = await api.get(`/student/quiz-attempts/${attemptId}`);
                 setAttempt(res.data);
             } catch (err) {

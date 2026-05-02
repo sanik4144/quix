@@ -24,6 +24,8 @@ const UserUpdate = () => {
   const updateUser = async ()=>{
     try {
       await api.put(`admin/users/${id}/update`, formData);
+      setLoading(false);
+      alert("Updated Successfully");
     } catch (error) {
       alert("Failed to Update");
     }
@@ -96,7 +98,6 @@ const UserUpdate = () => {
               placeholder="Your new remark"
               value={formData.remarks}
               onChange={handleChange}
-              required
             />
           </div>
         </div>
